@@ -20,12 +20,12 @@
         Confirm Password:
         <input type="password" name="confirm_password"><br><br>
         <input type="submit" value="Submit">
-        {% with message = get_flashed_messages() %}
+        {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for message in messages %}
                     <p>{{message}}</p> 
                 {% endfor %}
-            {% end if %}
+            {% endif %}
         {% endwith %}
     </form>
 </body>
