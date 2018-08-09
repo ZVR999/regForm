@@ -1,9 +1,10 @@
 from flask import Flask, session, flash, redirect, render_template, request
 import re
-
+EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 app = Flask(__name__)
 app.secret_key = '1n1@@4dscn%@T721fb@%Dewdsc2323?'
-EMAIL_REGEX = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
+
+
 
 @app.route('/', methods=['GET'])
 def index():
@@ -25,11 +26,27 @@ def process():
     last = session['last_name']
     password = session['password']
     confirm = session['confirm_password']
+    
     #Confirm all variables are working
-    print email, first, last, password, confirm
-
-    if email != EMAIL_REGEX.match(email):
-        flash('Email is not valid')
+    print type(email), first, last, password, confirm
+    
+    #Validation
+    #For email
+    if not EMAIL_REGEX.match(email):
+        flash('Email field is not valid')
         return redirect('/')
+    #For First Name
+    if first == '':
+        flash('Name field can not be blank')
+    elif not first.isalpha():
+        flash('First Name field can not contain number values')
+        return redirect('/')
+    #For Last Name
+    if last == '':
+        flash('Last Name field can not be blank')
+    elif not last.isalpha():
+        flash('Last Name field can not contain number values')
+        return redirect('/')
+    #For Password
     return redirect('/')
 app.run(debug=True)
